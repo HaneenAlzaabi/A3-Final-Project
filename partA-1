@@ -1,0 +1,19 @@
+class SocialMediaPostManager:
+    def __init__(self):
+        # Initialize a hash table to store posts with datetime keys
+        self.post_hash_table = {}
+
+    def add_post(self, datetime, post, user):
+        # Add a new post to the hash table with datetime as the key
+        self.post_hash_table[datetime] = (post, user)
+
+    def find_post_by_datetime(self, datetime):
+        # Retrieve a post from the hash table based on its datetime key
+        return self.post_hash_table.get(datetime, None)
+
+# Test case:
+post_manager = SocialMediaPostManager()
+post_manager.add_post("2024-04-28 10:00:00", "Hello World!", "user123")
+post_manager.add_post("2024-04-28 11:00:00", "Goodbye World!", "user456")
+
+print(post_manager.find_post_by_datetime("2024-04-28 10:00:00")) 
