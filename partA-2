@@ -1,0 +1,59 @@
+class TreeNode:
+    def __init__(self, datetime, post, user):
+        # Initialize a tree node with datetime, post, user, and left/right children
+        self.datetime = datetime
+        self.post = post
+        self.user = user
+        self.left = None
+        self.right = None
+
+class PostBST:
+    def __init__(self):
+        # Initialize an empty binary search tree
+        self.root = None
+
+    def insert(self, datetime, post, user):
+        # Insert a new node with datetime, post, and user into the binary search tree
+        if not self.root:
+            self.root = TreeNode(datetime, post, user)
+        else:
+            self._insert_helper(self.root, datetime, post, user)
+
+    def _insert_helper(self, node, datetime, post, user):
+        # Recursive helper function to insert a node into the binary search tree
+        if datetime < node.datetime:
+            if node.left:
+                self._insert_helper(node.left, datetime, post, user)
+            else:
+                node.left = TreeNode(datetime, post, user)
+        else:
+            if node.right:
+                self._insert_helper(node.right, datetime, post, user)
+            else:
+                node.right = TreeNode(datetime, post, user)
+
+    def find_posts_in_range(self, start_datetime, end_datetime):
+        # Find posts within a specific time range in the binary search tree
+        posts = []
+        self._search_range(self.root, start_datetime, end_datetime, posts)
+        return posts
+
+    def _search_range(self, node, start_datetime, end_datetime, posts):
+        # Recursive helper function to search for posts within a time range
+        if not node:
+            return
+        if start_datetime <= node.datetime <= end_datetime:
+            posts.append((node.datetime, node.post, node.user))
+        if start_datetime < node.datetime:
+            self._search_range(node.left, start_datetime, end_datetime, posts)
+        if end_datetime > node.datetime:
+            self._search_range(node.right, start_datetime, end_datetime, posts)
+
+# Test case:
+bst = PostBST()
+bst.insert("2024-04-28 10:00:00", "Hello World!", "user123")
+bst.insert("2024-04-28 11:00:00", "Goodbye World!", "user456")
+bst.insert("2024-04-29 12:00:00", "Another post", "user789")
+
+print(bst.find_posts_in_range("2024-04-28 09:00:00", "2024-04-28 11:30:00"))
+
